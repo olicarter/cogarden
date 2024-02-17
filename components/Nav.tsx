@@ -15,7 +15,7 @@ export default function Naev() {
         isExpanded ? 'h-[calc(100vh-16px)]' : 'h-16',
       )}
     >
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <Avatar fullName="John Doe" />
         <Plant size={32} />
         <button
