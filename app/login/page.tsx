@@ -1,13 +1,22 @@
 import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+import { RedirectType, redirect } from 'next/navigation'
 import { AppleLogo, Envelope, Plant } from '@phosphor-icons/react/dist/ssr'
 
-export default function Login({
+export default async function Login({
   searchParams,
 }: {
   searchParams: { message: string }
 }) {
+  const supabase = createClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (session) {
+    return redirect('/', RedirectType.replace)
+  }
+
   const signIn = async (formData: FormData) => {
     'use server'
 
