@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google'
 import '@/app/globals.css'
-import Nav from '@/components/Nav'
+import cn from '@/utils/cn'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={inter.className}
+      className={cn(inter.className, 'overflow-y-hidden')}
       style={{ scrollbarWidth: 'none' }}
     >
       <body className="bg-[#EFEEDF] text-green-950">

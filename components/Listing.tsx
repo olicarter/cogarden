@@ -11,6 +11,8 @@ import {
   ArrowLeft,
 } from '@phosphor-icons/react'
 import cn from '@/utils/cn'
+import Button from '@/components/Button'
+import IconButton from './IconButton'
 
 export default function Listing() {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -18,7 +20,7 @@ export default function Listing() {
   return (
     <div
       className={cn(
-        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col gap-4 overflow-hidden py-4 rounded-[32px] transition-all',
+        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col gap-4 overflow-hidden py-4 rounded-[32px] text-green-50 transition-all',
         isExpanded && 'grow',
       )}
     >
@@ -27,6 +29,7 @@ export default function Listing() {
           'duration-300 flex gap-4 overflow-x-auto px-4 transition-[height]',
           isExpanded ? 'h-48' : 'h-32',
         )}
+        style={{ scrollbarWidth: 'none' }}
       >
         {[0, 1, 2].map(index => (
           <div
@@ -52,23 +55,28 @@ export default function Listing() {
           text="€10/month + €50 deposit"
         />
       </div>
-      <div className="flex gap-4 px-4">
-        {isExpanded && (
-          <button
-            className="bg-green-700 flex focus:outline-none focus:ring-2 focus:ring-green-100 h-12 items-center justify-center rounded-full shrink-0 text-green-50 w-12"
-            onClick={() => setIsExpanded(false)}
-          >
-            <ArrowLeft size={28} />
-          </button>
-        )}
-        <button
-          className="bg-green-300 focus:outline-none focus:ring-2 focus:ring-green-100 font-medium grow h-12 rounded-full shrink-0 text-green-950"
+      <div className="flex gap-4 justify-end px-4">
+        <IconButton
+          color="green-700"
+          icon={ArrowLeft}
+          onClick={e => {
+            setIsExpanded(false)
+            e.currentTarget.blur()
+          }}
+          tabIndex={isExpanded ? 0 : -1}
+        />
+        <Button
+          className={cn(
+            'duration-300 transition-[width]',
+            isExpanded ? 'w-[calc(100%-64px)]' : 'w-full',
+          )}
+          color="green-300"
           onClick={() => {
             if (!isExpanded) setIsExpanded(true)
           }}
         >
           {isExpanded ? 'Reserve' : 'View details'}
-        </button>
+        </Button>
       </div>
     </div>
   )
