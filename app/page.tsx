@@ -1,5 +1,15 @@
-import AuthButton from '@/components/AuthButton'
+import Listing from '@/components/Listing'
+import Map from '@/components/Map'
+import Nav from '@/components/Nav'
 
 export default async function Index() {
-  return <AuthButton />
+  return (
+    <>
+      <Map />
+      <div className="flex flex-col gap-2 justify-between min-h-screen p-2">
+        <Nav />
+        <Listing />
+      </div>
+    </>
+  )
 }
