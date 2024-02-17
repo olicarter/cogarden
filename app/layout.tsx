@@ -20,8 +20,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="bg-green-950 text-green-50">
+    <html
+      lang="en"
+      className={inter.className}
+      style={{ scrollbarWidth: 'none' }}
+    >
+      <body className="bg-[#EFEEDF] text-green-950">
         <main className="min-h-screen flex flex-col">{children}</main>
       </body>
     </html>
