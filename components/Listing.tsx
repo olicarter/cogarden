@@ -20,7 +20,7 @@ export default function Listing() {
   return (
     <div
       className={cn(
-        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col gap-4 overflow-hidden py-4 rounded-[32px] text-green-50 transition-all',
+        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col gap-4 overflow-hidden py-4 rounded-[32px] shrink-0 text-green-50 transition-all',
         isExpanded && 'grow',
       )}
     >

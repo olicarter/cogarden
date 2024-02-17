@@ -13,7 +13,7 @@ export default function Map() {
           zoom: 14,
         }}
         mapStyle="https://api.maptiler.com/maps/streets/style.json?key=OwXJ08l2FRtshdySN3dK"
-        style={{ width: '100vw', height: '100vh' }}
+        style={{ width: '100vw', height: '100svh' }}
       >
         <Marker color="#166534" latitude={59.4482} longitude={24.68701} />
       </ReactMapGL>

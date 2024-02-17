@@ -6,7 +6,7 @@ export default async function Index() {
   return (
     <>
       <Map />
-      <div className="flex flex-col gap-2 justify-between min-h-screen p-2">
+      <div className="flex flex-col gap-2 justify-between min-h-svh p-2">
         <Nav />
         <Listing />
       </div>
