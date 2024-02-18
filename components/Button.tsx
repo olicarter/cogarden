@@ -20,7 +20,7 @@ export default function Button({
   return (
     <button
       className={cn(
-        'flex focus:outline-none focus:ring-2 focus:ring-green-100 font-medium gap-3 h-12 items-center justify-center px-4 rounded-full shrink-0 whitespace-nowrap',
+        'disabled:opacity-75 flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-100 font-medium gap-3 h-12 items-center justify-center px-4 rounded-full shrink-0 whitespace-nowrap',
         {
           'bg-green-300 text-green-950': color === 'green-300',
           'bg-green-700 text-green-50': color === 'green-700',

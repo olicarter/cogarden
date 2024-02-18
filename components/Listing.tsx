@@ -8,14 +8,19 @@ import {
   Leaf,
   MapPin,
   type Icon,
-  ArrowLeft,
+  X,
 } from '@phosphor-icons/react'
 import cn from '@/utils/cn'
 import Button from '@/components/Button'
 import IconButton from './IconButton'
+import { useSwipeable } from 'react-swipeable'
 
 export default function Listing() {
   const [isExpanded, setIsExpanded] = useState(false)
+  const { ref } = useSwipeable({
+    onSwipedDown: () => setIsExpanded(false),
+    onSwipedUp: () => setIsExpanded(true),
+  })
 
   return (
     <div
@@ -23,6 +28,7 @@ export default function Listing() {
         'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col gap-4 overflow-hidden py-4 rounded-[32px] shrink-0 text-green-50 transition-all',
         isExpanded && 'grow',
       )}
+      ref={ref}
     >
       <div
         className={cn(
@@ -58,7 +64,7 @@ export default function Listing() {
       <div className="flex gap-4 justify-end px-4">
         <IconButton
           color="green-700"
-          icon={ArrowLeft}
+          icon={X}
           onClick={e => {
             setIsExpanded(false)
             e.currentTarget.blur()

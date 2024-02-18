@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { RedirectType, redirect } from 'next/navigation'
 import { Plant } from '@phosphor-icons/react/dist/ssr'
 import Button from '@/components/Button'
-import SignInButton from './SignInButton'
+import LoadingOverlay from './LoadingOverlay'
 
 export default async function Login({
   searchParams,
@@ -68,6 +68,7 @@ export default async function Login({
         <h1 className="font-semibold text-3xl">cogarden</h1>
       </header>
       <form action={signIn} className="flex flex-col gap-4 w-full">
+        <LoadingOverlay />
         <div className="flex flex-col gap-1">
           <label className="leading-normal text-sm" htmlFor="email">
             Email
@@ -92,16 +93,12 @@ export default async function Login({
           />
         </div>
         <div className="*:grow flex gap-4">
-          <SignInButton />
+          <Button color="green-300">Sign in</Button>
           <Button color="green-300" formAction={signUp}>
             Sign up
           </Button>
         </div>
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-            {searchParams.message}
-          </p>
-        )}
+        {searchParams?.message && <p className="p-4">{searchParams.message}</p>}
       </form>
     </div>
   )
