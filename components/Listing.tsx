@@ -14,7 +14,7 @@ import IconButton from './IconButton'
 import { useSwipeable } from 'react-swipeable'
 import Avatar from './Avatar'
 
-export default function Listing() {
+export default function Listing({ plot }: { plot: any }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const { ref } = useSwipeable({
     onSwipedDown: () => setIsExpanded(false),
@@ -45,7 +45,7 @@ export default function Listing() {
       </div>
       <header className="flex flex-col gap-4 px-4 pb-4">
         <div className="flex justify-between">
-          <span className="font-bold text-xl">Pelguranna</span>
+          <span className="font-bold text-xl">{plot.street_name}</span>
           <span className="font-bold text-xl">
             6m<sup>2</sup>
           </span>
