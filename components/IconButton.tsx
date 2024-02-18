@@ -19,10 +19,8 @@ export default function IconButton({
       className={cn(
         'flex focus:outline-none focus:ring-2 focus:ring-green-100 h-12 items-center justify-center rounded-full shrink-0 w-12',
         {
-          'bg-green-300 hover:bg-green-200 text-green-950':
-            color === 'green-300',
-          'bg-green-700 hover:bg-green-600 text-green-50':
-            color === 'green-700',
+          'bg-green-300 text-green-950': color === 'green-300',
+          'bg-green-700 text-green-50': color === 'green-700',
         },
         className,
       )}

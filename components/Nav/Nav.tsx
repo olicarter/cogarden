@@ -13,6 +13,8 @@ import { type Icon as PhosphorIcon } from '@phosphor-icons/react'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import cn from '@/utils/cn'
+import { NavButton, NavLink } from './NavItem'
+import { SignOutNavButton } from './SignOutNavButton'
 
 export default function Nav() {
   const signOut = async () => {
@@ -45,42 +47,9 @@ export default function Nav() {
           Rent your garden
         </NavLink>
         <form action={signOut}>
-          <NavButton icon={SignOut}>Sign out</NavButton>
+          <SignOutNavButton />
         </form>
       </div>
     </details>
-  )
-}
-
-const navItemClasses = 'flex gap-3 hover:bg-green-300/20 p-4 w-full'
-
-interface NavLinkProps extends ComponentPropsWithoutRef<typeof Link> {
-  icon: PhosphorIcon
-}
-
-function NavLink({ children, className, icon: Icon, ...props }: NavLinkProps) {
-  return (
-    <Link className={cn(navItemClasses, className)} {...props}>
-      <Icon size={20} />
-      {children}
-    </Link>
-  )
-}
-
-interface NavButtonProps extends ComponentPropsWithoutRef<'button'> {
-  icon: PhosphorIcon
-}
-
-function NavButton({
-  children,
-  className,
-  icon: Icon,
-  ...props
-}: NavButtonProps) {
-  return (
-    <button className={cn(navItemClasses, className)} {...props}>
-      <Icon size={20} />
-      {children}
-    </button>
   )
 }

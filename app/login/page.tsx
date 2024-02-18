@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { RedirectType, redirect } from 'next/navigation'
 import { Plant } from '@phosphor-icons/react/dist/ssr'
 import Button from '@/components/Button'
+import SignInButton from './SignInButton'
 
 export default async function Login({
   searchParams,
@@ -90,8 +91,8 @@ export default async function Login({
             required
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <Button color="green-300">Sign in</Button>
+        <div className="*:grow flex gap-4">
+          <SignInButton />
           <Button color="green-300" formAction={signUp}>
             Sign up
           </Button>

@@ -27,7 +27,7 @@ export default function Listing() {
       <div
         className={cn(
           'duration-300 flex gap-4 overflow-x-auto px-4 transition-[height]',
-          isExpanded ? 'h-48' : 'h-32',
+          isExpanded ? 'h-48' : 'h-0',
         )}
         style={{ scrollbarWidth: 'none' }}
       >
