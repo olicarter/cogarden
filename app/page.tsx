@@ -1,4 +1,4 @@
-import Listing from '@/components/Listing'
+import PlotDetailsList from '@/components/PlotDetailsList'
 import Map from '@/components/Map'
 import Nav from '@/components/Nav'
 import { createClient } from '@/utils/supabase/server'
@@ -23,7 +23,7 @@ export default async function Index() {
           <div className="p-2 pb-0">
             <Nav />
           </div>
-          <Listing nearbyPlots={nearbyPlots} />
+          <PlotDetailsList nearbyPlots={nearbyPlots} />
         </div>
       </div>
     </>
