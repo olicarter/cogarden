@@ -26,7 +26,7 @@ export default function IconButton({
       )}
       {...props}
     >
-      <Icon size={28} />
+      <Icon size={24} />
     </button>
   )
 }

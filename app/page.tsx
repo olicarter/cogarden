@@ -3,11 +3,7 @@ import Map from '@/components/Map'
 import Nav from '@/components/Nav'
 import { createClient } from '@/utils/supabase/server'
 
-export default async function Index({
-  searchParams,
-}: {
-  searchParams: { plot: string }
-}) {
+export default async function Index() {
   const supabase = createClient()
 
   const { data: nearbyPlots } = await supabase.rpc('nearby_plots', {
@@ -15,21 +11,18 @@ export default async function Index({
     lng: 24.68701,
   })
 
-  let plot = nearbyPlots[0]
-
-  if (searchParams.plot) {
-    const { data } = await supabase.rpc('get_plot_with_location', {
-      plot_id: searchParams.plot,
-    })
-    plot = data[0]
+  if (!nearbyPlots) {
+    return <div>Loading...</div>
   }
 
   return (
     <>
-      <Map plot={plot} plots={nearbyPlots} />
-      <div className="flex flex-col gap-2 justify-between min-h-svh p-2">
-        <Nav />
-        <Listing plot={plot} />
+      <Map nearbyPlots={nearbyPlots} />
+      <div className="flex flex-col gap-2 justify-between min-h-svh">
+        <div className="p-2 pb-0">
+          <Nav />
+        </div>
+        <Listing nearbyPlots={nearbyPlots} />
       </div>
     </>
   )
