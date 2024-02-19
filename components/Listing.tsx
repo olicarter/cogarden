@@ -78,7 +78,7 @@ export default function Listings({
   return (
     <div
       className={cn(
-        'flex gap-4 w-screen px-2 pb-2 snap-x snap-mandatory *:snap-always *:snap-center',
+        'flex gap-4 w-full px-2 pb-2 snap-x snap-mandatory *:snap-always *:snap-center',
         expandedListing ? 'overflow-hidden' : 'overflow-x-scroll',
       )}
       ref={listingsRef}
@@ -144,7 +144,7 @@ function Listing({
   return (
     <div
       className={cn(
-        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col overflow-hidden rounded-[32px] shrink-0 text-green-50 transition-all w-[calc(100svw-16px)]',
+        'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col overflow-hidden rounded-[32px] shrink-0 text-green-50 transition-all w-full',
         isExpanded ? 'h-[calc(100svh-88px)]' : 'h-[292px]',
       )}
       ref={ref}

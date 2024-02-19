@@ -18,11 +18,13 @@ export default async function Index() {
   return (
     <>
       <Map nearbyPlots={nearbyPlots} />
-      <div className="flex flex-col gap-2 justify-between min-h-svh">
-        <div className="p-2 pb-0">
-          <Nav />
+      <div className="md:grid md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col gap-2 justify-between min-h-svh">
+          <div className="p-2 pb-0">
+            <Nav />
+          </div>
+          <Listing nearbyPlots={nearbyPlots} />
         </div>
-        <Listing nearbyPlots={nearbyPlots} />
       </div>
     </>
   )
