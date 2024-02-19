@@ -1,9 +1,9 @@
 'use client'
 
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import cn from '@/utils/cn'
 import { type Database } from '@/types/supabase'
-import { useRouter, useSearchParams } from 'next/navigation'
 import PlotDetails from './PlotDetails'
 
 type NearbyPlot =
@@ -19,7 +19,6 @@ export default function PlotDetailsList({
   const plotDetailsListRef = useRef<HTMLDivElement>(null)
   const plotDetailsRef = useRef<{ id: string; element: HTMLDivElement }[]>([])
   const plotId = searchParams.get('plot')
-  console.log(plotDetailsRef)
 
   const [expandedListing, setExpandedListing] = useState<
     NearbyPlot['id'] | null
@@ -37,7 +36,6 @@ export default function PlotDetailsList({
       setSelectedListing(plotId)
       const el = plotDetailsRef.current.find(p => p.id === plotId)?.element
       if (el) {
-        console.log('el', el)
         plotDetailsListRef.current?.scrollTo({
           left: el.offsetLeft,
           behavior: 'smooth',

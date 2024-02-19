@@ -24,7 +24,7 @@ export default function Nav() {
   return (
     <Details>
       <summary className="flex group/summary items-center justify-between p-3 rounded-[32px] ring-0 outline-none">
-        <Avatar fullName="John Doe" />
+        <Avatar name="John Doe" />
         <Plant size={32} />
         <button
           className="flex group-focus-visible/summary:ring-2 group-focus-visible/summary:ring-green-100 h-10 hover:bg-green-300/20 items-center justify-center pointer-events-none rounded-full w-10"

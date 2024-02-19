@@ -90,15 +90,15 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
                 !plot && 'animate-pulse bg-green-50/50 rounded w-full',
               )}
             >
-              {plot?.street_name}
+              {plot.street_name}
             </span>
             <span className="font-bold text-xl">
-              6m<sup>2</sup>
+              {plot.area}m<sup>2</sup>
             </span>
           </div>
           <InfoItem className="col-span-2 items-center">
-            <Avatar fullName="Artjom" size="xs" />
-            <InfoItemText>Rented by Artjom</InfoItemText>
+            <Avatar name={plot.host_first_name} size="xs" />
+            <InfoItemText>Hosted by {plot.host_first_name}</InfoItemText>
           </InfoItem>
         </header>
         <div className="duration-300 gap-4 grid grid-cols-2 grow auto-rows-min overflow-hidden px-4">

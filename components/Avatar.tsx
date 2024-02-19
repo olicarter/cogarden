@@ -4,16 +4,14 @@ import cn from '@/utils/cn'
 import * as RUIAvatar from '@radix-ui/react-avatar'
 
 interface AvatarProps {
-  fullName: string
+  name: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
 }
 
-export default function Avatar({ fullName, size = 'md' }: AvatarProps) {
-  const initials = fullName
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
+export default function Avatar({ name, size = 'md' }: AvatarProps) {
+  const initials = name.includes(' ')
+    ? name.split(' ')[0][0] + name.split(' ')[1][0]
+    : name[0]
 
   return (
     <RUIAvatar.Root
@@ -27,7 +25,7 @@ export default function Avatar({ fullName, size = 'md' }: AvatarProps) {
       <RUIAvatar.Image
         className="h-full w-full object-cover"
         src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-        alt={fullName}
+        alt={name}
       />
       <RUIAvatar.Fallback
         className="text-violet11 leading-1 flex h-full w-full items-center justify-center bg-white text-[15px] font-medium"

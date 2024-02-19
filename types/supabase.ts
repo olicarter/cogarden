@@ -33,25 +33,64 @@ export type Database = {
       plots: {
         Row: {
           address: string
+          area: number
           created_at: string
+          host: string
           id: string
         }
         Insert: {
           address: string
+          area: number
           created_at?: string
+          host: string
           id?: string
         }
         Update: {
           address?: string
+          area?: number
           created_at?: string
+          host?: string
           id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "public_plots_host_fkey"
+            columns: ["host"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
           {
             foreignKeyName: "public_spaces_address_fkey"
             columns: ["address"]
             isOneToOne: false
             referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          first_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          first_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
@@ -79,10 +118,12 @@ export type Database = {
         }
         Returns: {
           id: string
+          area: number
           street_name: string
           lat: number
           lng: number
           dist_meters: number
+          host_first_name: string
         }[]
       }
     }
