@@ -2,13 +2,15 @@
 
 import cn from '@/utils/cn'
 import * as RUIAvatar from '@radix-ui/react-avatar'
+import { type ComponentPropsWithoutRef } from 'react'
 
 interface AvatarProps {
   name: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
+  src?: ComponentPropsWithoutRef<'img'>['src']
 }
 
-export default function Avatar({ name, size = 'md' }: AvatarProps) {
+export default function Avatar({ name, size = 'md', src }: AvatarProps) {
   const initials = name.includes(' ')
     ? name.split(' ')[0][0] + name.split(' ')[1][0]
     : name[0]
@@ -24,7 +26,7 @@ export default function Avatar({ name, size = 'md' }: AvatarProps) {
     >
       <RUIAvatar.Image
         className="h-full w-full object-cover"
-        src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+        src={src}
         alt={name}
       />
       <RUIAvatar.Fallback

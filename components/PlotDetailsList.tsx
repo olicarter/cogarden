@@ -75,23 +75,23 @@ export default function PlotDetailsList({
       ref={plotDetailsListRef}
       style={{ scrollbarWidth: 'none' }}
     >
-      {nearbyPlots.map(plot => (
+      {nearbyPlots.map(nearbyPlot => (
         <PlotDetails
-          isExpanded={expandedListing === plot.id}
-          key={plot.id}
+          isExpanded={expandedListing === nearbyPlot.id}
+          key={nearbyPlot.id}
           onChangeExpanded={isExpanded => {
-            setExpandedListing(isExpanded ? plot.id : null)
+            setExpandedListing(isExpanded ? nearbyPlot.id : null)
           }}
           onChangeIntersection={isIntersecting => {
-            if (isIntersecting) setSelectedListing(plot.id)
+            if (isIntersecting) setSelectedListing(nearbyPlot.id)
           }}
-          plot={plot}
+          nearbyPlot={nearbyPlot}
           ref={element => {
             if (
               element &&
-              !plotDetailsRef.current.some(p => p.id === plot.id)
+              !plotDetailsRef.current.some(p => p.id === nearbyPlot.id)
             ) {
-              plotDetailsRef.current.push({ id: plot.id, element })
+              plotDetailsRef.current.push({ id: nearbyPlot.id, element })
             }
           }}
           scrollToPrevPlot={scrollToPrevPlot}

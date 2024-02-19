@@ -69,18 +69,50 @@ export type Database = {
           }
         ]
       }
+      plots_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          plot: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+          plot?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          plot?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_plots_images_plot_fkey"
+            columns: ["plot"]
+            isOneToOne: false
+            referencedRelation: "plots"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           first_name: string
           user_id: string
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           first_name: string
           user_id: string
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           first_name?: string
           user_id?: string
@@ -124,6 +156,7 @@ export type Database = {
           lng: number
           dist_meters: number
           host_first_name: string
+          host_avatar_url: string
         }[]
       }
     }

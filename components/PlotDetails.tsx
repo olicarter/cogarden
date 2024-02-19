@@ -1,10 +1,12 @@
 'use client'
 
+import Image from 'next/image'
 import {
   forwardRef,
   useEffect,
   type ComponentPropsWithoutRef,
   type PropsWithChildren,
+  useState,
 } from 'react'
 import { useSwipeable } from 'react-swipeable'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -23,6 +25,8 @@ import Button from '@/components/Button'
 import { type Database } from '@/types/supabase'
 import Avatar from './Avatar'
 import IconButton from './IconButton'
+import { createClient } from '@/utils/supabase/client'
+import { QueryData } from '@supabase/supabase-js'
 
 type NearbyPlot =
   Database['public']['Functions']['nearby_plots']['Returns'][number]
@@ -31,7 +35,7 @@ interface PlotDetailsProps {
   isExpanded: boolean
   onChangeExpanded: (isExpanded: boolean) => void
   onChangeIntersection: (isIntersecting: boolean) => void
-  plot: NearbyPlot
+  nearbyPlot: NearbyPlot
   scrollToPrevPlot: () => void
   scrollToNextPlot: () => void
 }
@@ -42,12 +46,31 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
       isExpanded,
       onChangeExpanded,
       onChangeIntersection,
-      plot,
+      nearbyPlot,
       scrollToPrevPlot,
       scrollToNextPlot,
     },
     ref,
   ) {
+    const supabase = createClient()
+
+    const plotQuery = supabase
+      .from('plots')
+      .select('*, plots_images(id, image_url)')
+
+    const [plot, setPlot] = useState<
+      QueryData<typeof plotQuery>[number] | null
+    >(null)
+
+    useEffect(() => {
+      const getData = async () => {
+        const { data, error } = await plotQuery.eq('id', nearbyPlot.id).single()
+        if (error) console.error(error)
+        else setPlot(data)
+      }
+      getData()
+    }, [nearbyPlot.id])
+
     const { isIntersecting, ref: intersectionRef } = useIntersectionObserver({
       threshold: 0.5,
     })
@@ -60,10 +83,12 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
       onChangeIntersection(isIntersecting)
     }, [isIntersecting])
 
+    if (!plot) return null
+
     return (
       <div
         className={cn(
-          'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col overflow-hidden rounded-[32px] shrink-0 text-green-50 transition-all w-full',
+          'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col group overflow-hidden rounded-[32px] shrink-0 text-green-50 transition-all w-full',
           isExpanded ? 'h-[calc(100svh-88px)]' : 'h-[292px]',
         )}
         ref={mergeRefs(ref, intersectionRef, swipeableRef)}
@@ -75,10 +100,14 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
           )}
           style={{ scrollbarWidth: 'none' }}
         >
-          {[0, 1, 2].map(index => (
-            <div
-              className="aspect-square bg-green-900 h-full rounded-[20px]"
-              key={index}
+          {plot.plots_images.map(image => (
+            <Image
+              alt="Plot image"
+              className="aspect-square basis-0 h-full object-cover rounded-[20px]"
+              height={192}
+              key={image.id}
+              src={image.image_url}
+              width={192}
             />
           ))}
         </div>
@@ -90,15 +119,19 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
                 !plot && 'animate-pulse bg-green-50/50 rounded w-full',
               )}
             >
-              {plot.street_name}
+              {nearbyPlot.street_name}
             </span>
             <span className="font-bold text-xl">
-              {plot.area}m<sup>2</sup>
+              {nearbyPlot.area}m<sup>2</sup>
             </span>
           </div>
           <InfoItem className="col-span-2 items-center">
-            <Avatar name={plot.host_first_name} size="xs" />
-            <InfoItemText>Hosted by {plot.host_first_name}</InfoItemText>
+            <Avatar
+              name={nearbyPlot.host_first_name}
+              size="xs"
+              src={nearbyPlot.host_avatar_url}
+            />
+            <InfoItemText>Hosted by {nearbyPlot.host_first_name}</InfoItemText>
           </InfoItem>
         </header>
         <div className="duration-300 gap-4 grid grid-cols-2 grow auto-rows-min overflow-hidden px-4">
@@ -127,7 +160,12 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
             <InfoItemText>Available now</InfoItemText>
           </InfoItem>
         </div>
-        <div className="flex gap-4 justify-start p-4 pt-0">
+        <div
+          className={cn(
+            'duration-300 flex gap-4 justify-start p-4 pt-0 transition-transform',
+            !isExpanded && 'group-first:-translate-x-[64px]',
+          )}
+        >
           <IconButton
             color="green-700"
             icon={isExpanded ? X : ArrowLeft}
@@ -143,7 +181,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
           />
           <Button
             className={cn(
-              'duration-300 grow transition-[flex-basis]',
+              'group-first:basis-[calc(100%-64px)] group-last:basis-[calc(100%-64px)] duration-300 grow transition-[flex-basis]',
               isExpanded
                 ? 'basis-[calc(100%-64px)]'
                 : 'basis-[calc(100%-128px)]',
