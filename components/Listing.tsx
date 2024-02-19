@@ -122,7 +122,7 @@ function Listing({
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const { isIntersecting, ref: intersectionRef } = useIntersectionObserver({
-    threshold: 1,
+    threshold: 0.5,
   })
   const { ref: swipeableRef } = useSwipeable({
     onSwipedDown: () => onChangeExpanded(false),
