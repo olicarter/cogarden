@@ -91,7 +91,6 @@ export default function Page(props: { searchParams: SearchParams }) {
       return
     }
 
-    console.log(longitude)
     const { data: insertAddressData, error: insertAddressError } =
       await supabase
         .from('addresses')
