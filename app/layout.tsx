@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={cn(
         inter.className,
-        'fixed top-0 bottom-0 left-0 right-0 overflow-y-hidden overscroll-none',
+        'fixed top-0 bottom-0 left-0 right-0 overflow-y-hidden overscroll-none text-amber-50',
       )}
       style={{ scrollbarWidth: 'none' }}
     >

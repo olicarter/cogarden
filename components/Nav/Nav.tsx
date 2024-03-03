@@ -45,7 +45,8 @@ export default async function Nav() {
         <Avatar name={profile.first_name} src={profile.avatar_url} />
         <Plant size={32} />
         <button
-          className="flex group-focus-visible/summary:ring-2 group-focus-visible/summary:ring-green-100 h-10 hover:bg-green-300/20 items-center justify-center pointer-events-none rounded-full w-10"
+          className={`flex h-10 hover:bg-green-900 items-center justify-center pointer-events-none rounded-full w-10
+          group-focus-visible/summary:ring-2 group-focus-visible/summary:ring-green-100`}
           tabIndex={-1}
         >
           <CaretUp className="group-open/details:block hidden" size={28} />
@@ -57,7 +58,7 @@ export default async function Nav() {
         <NavLink href="/" icon={MagnifyingGlass}>
           Find a space
         </NavLink>
-        <NavLink href="/gardens/new" icon={HandCoins}>
+        <NavLink href="/plots/create" icon={HandCoins}>
           Rent your garden
         </NavLink>
         <form action={signOut}>

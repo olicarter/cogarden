@@ -13,7 +13,8 @@ export default function Nav({ children }: ComponentPropsWithoutRef<'details'>) {
 
   return (
     <details
-      className="backdrop-blur-xl bg-green-950/90 cursor-pointer duration-300 flex flex-col group/details h-16 items-stretch justify-between open:h-[calc(100svh-16px)] overflow-hidden rounded-[32px] select-none shrink-0 text-green-100 transition-[height]"
+      className={`bg-green-950 cursor-pointer duration-300 flex flex-col group/details h-16 items-stretch justify-between overflow-hidden relative rounded-[32px] select-none shrink-0 transition-[height]
+      open:h-[calc(100svh-16px)]`}
       open={isOpen}
       ref={ref}
     >

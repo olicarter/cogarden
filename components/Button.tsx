@@ -4,7 +4,7 @@ import { type ComponentPropsWithRef } from 'react'
 import { type Icon as PhosphorIcon } from '@phosphor-icons/react'
 
 interface ButtonProps extends ComponentPropsWithRef<'button'> {
-  color: 'black' | 'green-300' | 'green-700'
+  color: 'amber-100' | 'amber-200' | 'black' | 'green-900'
   icon?: PhosphorIcon
   loading?: boolean
 }
@@ -20,11 +20,14 @@ export default function Button({
   return (
     <button
       className={cn(
-        'disabled:opacity-75 flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-100 font-medium gap-3 h-12 items-center justify-center px-4 rounded-full shrink-0 whitespace-nowrap',
+        `flex font-medium gap-3 h-12 items-center justify-center px-4 rounded-full shrink-0 whitespace-nowrap
+        disabled:cursor-not-allowed disabled:opacity-50
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-100`,
         {
-          'bg-green-300 text-green-950': color === 'green-300',
-          'bg-green-700 text-green-50': color === 'green-700',
+          'bg-amber-100 text-green-950': color === 'amber-100',
+          'bg-amber-200 text-green-950': color === 'amber-200',
           'bg-black text-white': color === 'black',
+          'bg-green-900 text-amber-50': color === 'green-900',
         },
         className,
       )}

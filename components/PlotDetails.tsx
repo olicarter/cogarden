@@ -88,7 +88,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
     return (
       <div
         className={cn(
-          'bg-green-950/90 backdrop-blur-xl duration-300 flex flex-col group overflow-hidden rounded-[32px] shrink-0 text-green-50 transition-all w-full',
+          'bg-green-950 duration-300 flex flex-col group overflow-hidden relative rounded-[32px] shrink-0 text-amber-50 transition-all w-full',
           isExpanded ? 'h-[calc(100svh-88px)]' : 'h-[292px]',
         )}
         ref={mergeRefs(ref, intersectionRef, swipeableRef)}
@@ -116,7 +116,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
             <span
               className={cn(
                 'font-bold text-xl',
-                !plot && 'animate-pulse bg-green-50/50 rounded w-full',
+                !plot && 'animate-pulse bg-amber-50/50 rounded w-full',
               )}
             >
               {nearbyPlot.street_name}
@@ -167,7 +167,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
           )}
         >
           <IconButton
-            color="green-700"
+            color="green-900"
             icon={isExpanded ? X : ArrowLeft}
             onClick={e => {
               if (isExpanded) {
@@ -186,7 +186,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
                 ? 'basis-[calc(100%-64px)]'
                 : 'basis-[calc(100%-128px)]',
             )}
-            color="green-300"
+            color="amber-100"
             onClick={() => {
               if (!isExpanded) onChangeExpanded(true)
             }}
@@ -194,7 +194,7 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
             {isExpanded ? 'Reserve' : 'View details'}
           </Button>
           <IconButton
-            color="green-700"
+            color="green-900"
             icon={ArrowRight}
             onClick={scrollToPrevPlot}
             tabIndex={-1}

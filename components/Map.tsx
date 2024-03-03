@@ -8,7 +8,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 type NearbyPlots = Database['public']['Functions']['nearby_plots']['Returns']
 
-export default function Map({ nearbyPlots }: { nearbyPlots: NearbyPlots }) {
+export default function Map({
+  nearbyPlots = [],
+}: {
+  nearbyPlots?: NearbyPlots
+}) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -20,9 +24,9 @@ export default function Map({ nearbyPlots }: { nearbyPlots: NearbyPlots }) {
 
   const [viewState, setViewState] = useState({
     // The 0.002 shows the marker in the empty space
-    latitude: plot.lat - 0.002,
+    latitude: plot.lat - 0.001,
     longitude: plot.lng,
-    zoom: 14,
+    zoom: 15,
   })
 
   const onSelectPlot = useCallback(

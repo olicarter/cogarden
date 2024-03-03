@@ -1,23 +1,22 @@
-import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { RedirectType, redirect } from 'next/navigation'
 import { Plant } from '@phosphor-icons/react/dist/ssr'
-import Button from '@/components/Button'
-import LoadingOverlay from './LoadingOverlay'
+import FormField from '@/components/FormField'
+import TextInput from '@/components/TextInput'
+import SubmitButton from './SubmitButton'
+import ResendOTPButton from './ResendOTPButton'
 
 export default async function Login({
   searchParams,
 }: {
-  searchParams: { message: string }
+  searchParams: { email: string; message: string; status: string }
 }) {
   const supabase = createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (user) {
-    return redirect('/', RedirectType.replace)
-  }
+  if (user) redirect('/', RedirectType.replace)
 
   const signIn = async (formData: FormData) => {
     'use server'
@@ -31,74 +30,49 @@ export default async function Login({
       password,
     })
 
-    if (error) {
-      return redirect('/login?message=Could not authenticate user')
-    }
+    if (error) redirect('/login?message=Could not authenticate user')
 
-    return redirect('/')
-  }
-
-  const signUp = async (formData: FormData) => {
-    'use server'
-
-    const origin = headers().get('origin')
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const supabase = createClient()
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
-      return redirect('/login?message=Could not authenticate user')
-    }
-
-    return redirect('/login?message=Check email to continue sign in process')
+    redirect('/')
   }
 
   return (
-    <div className="bg-green-950 flex flex-col gap-8 items-center justify-center min-h-screen p-8 text-green-50">
+    <div className="bg-green-950 flex flex-col gap-8 items-center justify-center max-w-96 min-h-screen p-8 self-center text-green-50 w-full">
       <header className="flex flex-col items-center">
         <Plant size={80} />
         <h1 className="font-semibold text-3xl">cogarden</h1>
       </header>
       <form action={signIn} className="flex flex-col gap-4 w-full">
-        <LoadingOverlay />
-        <div className="flex flex-col gap-1">
-          <label className="leading-normal text-sm" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="bg-green-800 border-none h-12 placeholder:text-green-950 px-4 focus:ring-2 focus:ring-green-100 rounded-lg"
-            name="email"
-            placeholder="you@example.com"
-            required
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="leading-normal text-sm" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="bg-green-800 border-none h-12 placeholder:text-green-950 px-4 focus:ring-2 focus:ring-green-100 rounded-lg"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-          />
-        </div>
-        <div className="*:grow flex gap-4">
-          <Button color="green-300">Sign in</Button>
-          <Button color="green-300" formAction={signUp}>
-            Sign up
-          </Button>
-        </div>
-        {searchParams?.message && <p className="p-4">{searchParams.message}</p>}
+        {searchParams.status === 'otp-sent' ? (
+          <>
+            <input name="email" type="hidden" value={searchParams.email} />
+            <p className="text-center text-sm">
+              Follow the link sent to <strong>{searchParams.email}</strong> to
+              finish signing in
+            </p>
+            <ResendOTPButton />
+          </>
+        ) : (
+          <>
+            <FormField label="Email" description={searchParams.message}>
+              <TextInput
+                className="peer"
+                name="email"
+                placeholder="you@example.com"
+                required
+              />
+            </FormField>
+            <FormField label="Password" description={searchParams.message}>
+              <TextInput
+                className="peer"
+                name="password"
+                placeholder="••••••••"
+                required
+                type="password"
+              />
+            </FormField>
+            <SubmitButton />
+          </>
+        )}
       </form>
     </div>
   )

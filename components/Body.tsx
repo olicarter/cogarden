@@ -9,10 +9,7 @@ export default function Body(props: ComponentPropsWithoutRef<'body'>) {
 
   return (
     <body
-      className={cn(
-        'h-svh text-green-950',
-        pathname === '/login' ? 'bg-green-950' : 'bg-[#EFEEDF]',
-      )}
+      className={cn('h-svh', pathname ? 'bg-green-950' : 'bg-[#EFEEDF]')}
       {...props}
     />
   )
