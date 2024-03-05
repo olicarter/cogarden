@@ -68,6 +68,9 @@ export default function MultiStepForm({
     const longitude = searchParams.get('longitude') as string
     const latitude = searchParams.get('latitude') as string
     const area = parseFloat(searchParams.get('area') as string)
+    const water = searchParams.get('water') === 'true'
+    const storage = searchParams.get('storage') === 'true'
+    const price = parseFloat(searchParams.get('price') as string)
 
     supabase
       .from('addresses')
@@ -88,7 +91,10 @@ export default function MultiStepForm({
           .insert({
             address: insertAddressData.id,
             area,
+            has_water: water,
+            has_storage: storage,
             host: user.id,
+            price_per_month: price,
           })
           .then(({ error }) => {
             if (error) {

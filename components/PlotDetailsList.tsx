@@ -75,8 +75,9 @@ export default function PlotDetailsList({
       ref={plotDetailsListRef}
       style={{ scrollbarWidth: 'none' }}
     >
-      {nearbyPlots.map(nearbyPlot => (
+      {nearbyPlots.map((nearbyPlot, index) => (
         <PlotDetails
+          index={index}
           isExpanded={expandedListing === nearbyPlot.id}
           key={nearbyPlot.id}
           onChangeExpanded={isExpanded => {
@@ -86,6 +87,7 @@ export default function PlotDetailsList({
             if (isIntersecting) setSelectedListing(nearbyPlot.id)
           }}
           nearbyPlot={nearbyPlot}
+          nearbyPlotsCount={nearbyPlots.length}
           ref={element => {
             if (
               element &&

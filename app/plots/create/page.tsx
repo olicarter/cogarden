@@ -22,8 +22,7 @@ const steps = [
   // },
   {
     name: 'location',
-    description:
-      'Enter the address and drag the pin to the most accurate location of the plot',
+    description: 'Drag the marker to the location of the plot',
   },
   { name: 'plot', description: 'Enter details about the plot' },
   {

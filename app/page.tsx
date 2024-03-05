@@ -11,7 +11,7 @@ export default async function Index() {
     lng: 24.68701,
   })
 
-  if (!nearbyPlots) {
+  if (nearbyPlots === null || nearbyPlots.length === 0) {
     return <div>Loading...</div>
   }
 

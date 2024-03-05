@@ -35,22 +35,31 @@ export type Database = {
           address: string
           area: number
           created_at: string
+          has_storage: boolean | null
+          has_water: boolean | null
           host: string
           id: string
+          price_per_month: number
         }
         Insert: {
           address: string
           area: number
           created_at?: string
+          has_storage?: boolean | null
+          has_water?: boolean | null
           host: string
           id?: string
+          price_per_month: number
         }
         Update: {
           address?: string
           area?: number
           created_at?: string
+          has_storage?: boolean | null
+          has_water?: boolean | null
           host?: string
           id?: string
+          price_per_month?: number
         }
         Relationships: [
           {

@@ -13,7 +13,6 @@ import { useIntersectionObserver } from 'usehooks-ts'
 import {
   ArrowLeft,
   ArrowRight,
-  CalendarBlank,
   Check,
   Money,
   X,
@@ -27,15 +26,18 @@ import Avatar from './Avatar'
 import IconButton from './IconButton'
 import { createClient } from '@/utils/supabase/client'
 import { QueryData } from '@supabase/supabase-js'
+import { useKey } from 'react-use'
 
 type NearbyPlot =
   Database['public']['Functions']['nearby_plots']['Returns'][number]
 
 interface PlotDetailsProps {
+  index: number
   isExpanded: boolean
   onChangeExpanded: (isExpanded: boolean) => void
   onChangeIntersection: (isIntersecting: boolean) => void
   nearbyPlot: NearbyPlot
+  nearbyPlotsCount: number
   scrollToPrevPlot: () => void
   scrollToNextPlot: () => void
 }
@@ -43,10 +45,12 @@ interface PlotDetailsProps {
 export default forwardRef<HTMLDivElement, PlotDetailsProps>(
   function PlotDetails(
     {
+      index,
       isExpanded,
       onChangeExpanded,
       onChangeIntersection,
       nearbyPlot,
+      nearbyPlotsCount,
       scrollToPrevPlot,
       scrollToNextPlot,
     },
@@ -74,14 +78,17 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
     const { isIntersecting, ref: intersectionRef } = useIntersectionObserver({
       threshold: 0.5,
     })
+
+    useEffect(() => {
+      onChangeIntersection(isIntersecting)
+    }, [isIntersecting])
+
     const { ref: swipeableRef } = useSwipeable({
       onSwipedDown: () => onChangeExpanded(false),
       onSwipedUp: () => onChangeExpanded(true),
     })
 
-    useEffect(() => {
-      onChangeIntersection(isIntersecting)
-    }, [isIntersecting])
+    useKey('Escape', () => onChangeExpanded(false), {}, [isExpanded])
 
     if (!plot) return null
 
@@ -136,34 +143,28 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
         </header>
         <div className="duration-300 gap-4 grid grid-cols-2 grow auto-rows-min overflow-hidden px-4">
           <InfoItem>
-            <InfoItemIcon icon={X} />
-            <InfoItemText>Shared with others</InfoItemText>
-          </InfoItem>
-          <InfoItem>
-            <InfoItemIcon icon={X} />
+            <InfoItemIcon icon={plot.has_water ? Check : X} />
             <InfoItemText>Water source</InfoItemText>
           </InfoItem>
           <InfoItem>
-            <InfoItemIcon icon={Check} />
-            <InfoItemText>Soil</InfoItemText>
-          </InfoItem>
-          <InfoItem>
-            <InfoItemIcon icon={Check} />
+            <InfoItemIcon icon={plot.has_storage ? Check : X} />
             <InfoItemText>Storage</InfoItemText>
           </InfoItem>
           <InfoItem>
             <InfoItemIcon icon={Money} />
             <InfoItemText>€10/month</InfoItemText>
           </InfoItem>
-          <InfoItem>
-            <InfoItemIcon icon={CalendarBlank} />
-            <InfoItemText>Available now</InfoItemText>
-          </InfoItem>
         </div>
-        <div
+        <footer
           className={cn(
-            'duration-300 flex gap-4 justify-start p-4 pt-0 transition-transform',
-            !isExpanded && 'group-first:-translate-x-[64px]',
+            'duration-300 flex gap-4 justify-center p-4 pt-0 transition-[transform,width] w-full',
+            isExpanded && 'w-[calc(100%+64px)]',
+            !isExpanded &&
+              nearbyPlotsCount < 2 &&
+              '-translate-x-[64px] w-[calc(100%+128px)]',
+            !isExpanded &&
+              nearbyPlotsCount > 1 &&
+              'group-first:-translate-x-[64px] group-last:translate-x-[0px] w-[calc(100%+64px)]',
           )}
         >
           <IconButton
@@ -173,23 +174,22 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
               if (isExpanded) {
                 onChangeExpanded(false)
                 e.currentTarget.blur()
-              } else {
-                scrollToNextPlot()
-              }
+              } else scrollToNextPlot()
             }}
-            tabIndex={isExpanded ? 0 : -1}
+            tabIndex={
+              isIntersecting &&
+              (isExpanded || (nearbyPlotsCount > 1 && index > 0))
+                ? 0
+                : -1
+            }
           />
           <Button
-            className={cn(
-              'group-first:basis-[calc(100%-64px)] group-last:basis-[calc(100%-64px)] duration-300 grow transition-[flex-basis]',
-              isExpanded
-                ? 'basis-[calc(100%-64px)]'
-                : 'basis-[calc(100%-128px)]',
-            )}
+            className="grow"
             color="amber-100"
             onClick={() => {
               if (!isExpanded) onChangeExpanded(true)
             }}
+            tabIndex={isIntersecting ? 0 : -1}
           >
             {isExpanded ? 'Reserve' : 'View details'}
           </Button>
@@ -197,9 +197,13 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
             color="green-900"
             icon={ArrowRight}
             onClick={scrollToPrevPlot}
-            tabIndex={-1}
+            tabIndex={
+              isIntersecting && !isExpanded && index < nearbyPlotsCount - 1
+                ? 0
+                : -1
+            }
           />
-        </div>
+        </footer>
       </div>
     )
   },

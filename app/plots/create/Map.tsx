@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react'
 
 export default function Map() {
   const [viewState, setViewState] = useState({
-    latitude: 0,
+    latitude: 51,
     longitude: 0,
-    zoom: 0,
+    zoom: 3,
   })
 
   useEffect(() => {

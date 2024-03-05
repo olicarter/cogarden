@@ -8,11 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 type NearbyPlots = Database['public']['Functions']['nearby_plots']['Returns']
 
-export default function Map({
-  nearbyPlots = [],
-}: {
-  nearbyPlots?: NearbyPlots
-}) {
+export default function Map({ nearbyPlots }: { nearbyPlots: NearbyPlots }) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
