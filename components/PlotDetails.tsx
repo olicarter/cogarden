@@ -92,6 +92,9 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
 
     if (!plot) return null
 
+    const isFirstItem = index === 0
+    const isLastItem = index === nearbyPlotsCount - 1
+
     return (
       <div
         className={cn(
@@ -160,11 +163,9 @@ export default forwardRef<HTMLDivElement, PlotDetailsProps>(
             'duration-300 flex gap-4 justify-center p-4 pt-0 transition-[transform,width] w-full',
             isExpanded && 'w-[calc(100%+64px)]',
             !isExpanded &&
-              nearbyPlotsCount < 2 &&
-              '-translate-x-[64px] w-[calc(100%+128px)]',
-            !isExpanded &&
-              nearbyPlotsCount > 1 &&
-              'group-first:-translate-x-[64px] group-last:translate-x-[0px] w-[calc(100%+64px)]',
+              isFirstItem &&
+              '-translate-x-[64px] w-[calc(100%+64px)]',
+            !isExpanded && isLastItem && 'w-[calc(100%+64px)]',
           )}
         >
           <IconButton
